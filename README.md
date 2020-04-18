@@ -24,31 +24,52 @@ Administrate its OpenVPN with a web interface (logs visualisations, users managi
 
 ### Debian 8 Jessie
 
-````
-# apt-get install openvpn apache2 php5-mysql mysql-server php5 nodejs unzip git wget sed npm curl
-# npm install -g bower
-# ln -s /usr/bin/nodejs /usr/bin/node
+````shell
+$ apt-get install openvpn apache2 php5-mysql mysql-server php5 nodejs unzip git wget sed npm curl
+$ npm install -g bower
+$ ln -s /usr/bin/nodejs /usr/bin/node
 ````
 
 ### Debian 9 Stretch
 
 In order to install `npm`, [stretch-backports need to be added to your sources.list](https://backports.debian.org/Instructions/#index2h2).
 
-````
-# apt-get install -t stretch-backports npm nodejs
-# apt-get install openvpn apache2 php-mysql mysql-server php-zip php unzip git wget sed curl
-# npm install -g bower
+````shell
+$ apt-get install -t stretch-backports npm nodejs
+$ apt-get install openvpn apache2 php-mysql mysql-server php-zip php unzip git wget sed curl
+$ npm install -g bower
 ````
 
 ### CentOS 7
 
+````bash
+$ yum install epel-release
+$ yum install openvpn httpd php-mysql mariadb-server php nodejs unzip git wget sed npm php-zip
+$ npm install -g bower
+$ systemctl enable mariadb
+$ systemctl start mariadb
 ````
-# yum install epel-release
-# yum install openvpn httpd php-mysql mariadb-server php nodejs unzip git wget sed npm
-# npm install -g bower
-# systemctl enable mariadb
-# systemctl start mariadb
-````
+
+### Centos 8
+
+```shell
+$ dnf install epel-release -y
+$ sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
+$ sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
+$ dnf install php-json php-xml  php-mysqlnd php-mbstring  php-common  php-gd php-fpm
+$ dnf install openvpn nodejs unzip git wget sed npm
+$ dnf install mariadb-server && systemctl enable mariadb && systemctl start mariadb
+$ mysql_secure_installation
+$ dnf install httpd -y && systemctl enable httpd && systemctl start httpd
+$ npm install -g bower
+$ mkdir ~/my_coding_workspace
+$ vim /etc/php.ini
+  zlib.output_compression = On
+
+
+```
+
+
 
 ### Other distribution... (PR welcome)
 
@@ -60,12 +81,19 @@ Only tested on Debian Jessie. Feel free to open issues.
 
   * Setup OpenVPN and the web application:
 
-        $ cd ~/my_coding_workspace
-        $ git clone https://github.com/Chocobozzz/OpenVPN-Admin openvpn-admin
-        $ cd openvpn-admin
-        # ./install.sh /var/www www-data www-data
+      ```shell
+      $ cd ~/my_coding_workspace
+      $ git clone https://github.com/Chocobozzz/OpenVPN-Admin openvpn-admin
+      $ cd openvpn-admin
+      $ ./install.sh /var/www apache apache
+      $ systemctl enable openvpn-server@server
+      $ systemctl start openvpn-server@server
+      ```
+
+      
 
   * Setup the web server (Apache, NGinx...) to serve the web application.
+
   * Create the admin of the web application by visiting `http://your-installation/index.php?installation`
 
 ## Usage

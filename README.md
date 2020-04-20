@@ -56,17 +56,13 @@ $ systemctl start mariadb
 $ dnf install epel-release -y
 $ sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
 $ sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
-$ dnf install php-json php-xml  php-mysqlnd php-mbstring  php-common  php-gd php-fpm
-$ dnf install openvpn nodejs unzip git wget sed npm
+$ dnf install php-json php-xml  php-mysqlnd php-mbstring  php-common  php-gd php-fpm php-zip php
+$ dnf install openvpn nodejs unzip git wget sed npm net-tools
 $ dnf install mariadb-server && systemctl enable mariadb && systemctl start mariadb
 $ mysql_secure_installation
 $ dnf install httpd -y && systemctl enable httpd && systemctl start httpd
 $ npm install -g bower
 $ mkdir ~/my_coding_workspace
-$ vim /etc/php.ini
-  zlib.output_compression = On
-
-
 ```
 
 
@@ -87,11 +83,10 @@ Only tested on Debian Jessie. Feel free to open issues.
       $ cd openvpn-admin
       $ ./install.sh /var/www apache apache
       $ systemctl enable openvpn-server@server
-      $ systemctl start openvpn-server@server
       ```
-
       
 
+      
   * Setup the web server (Apache, NGinx...) to serve the web application.
 
   * Create the admin of the web application by visiting `http://your-installation/index.php?installation`
